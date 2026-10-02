@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carlos Cardona — IT &amp; Automation</title>
+<meta name="description" content="Carlos Cardona — IT Field Support Engineer who builds automation for the IT work nobody wants to do by hand. CompTIA A+, Network+, Security+.">
+<meta property="og:title" content="Carlos Cardona — IT &amp; Automation">
+<meta property="og:description" content="IT Field Support Engineer. I build tools that turn repetitive IT work into one click.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d12'/%3E%3Ctext x='10' y='44' font-family='monospace' font-size='30' font-weight='700' fill='%233ddc97'%3E%3E_%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --surface: #12151d;
+    --surface-2: #171b25;
+    --border: #232837;
+    --text: #e7e9ef;
+    --muted: #8d95a8;
+    --green: #3ddc97;
+    --blue: #7aa2ff;
+    --amber: #ffc66d;
+    --radius: 14px;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(122,162,255,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(122,162,255,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(10px);
+    background: rgba(11,13,18,.75);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .logo { font-family: var(--mono); font-weight: 700; color: var(--text); }
+  .logo span { color: var(--green); }
+  nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; }
+  nav ul a { color: var(--muted); font-size: 14px; font-weight: 500; }
+  nav ul a:hover { color: var(--text); text-decoration: none; }
+
+  /* hero */
+  .hero { padding: 88px 0 56px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+  .eyebrow { font-family: var(--mono); color: var(--green); font-size: 14px; margin-bottom: 14px; }
+  h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; margin: 0 0 18px; letter-spacing: -0.03em; font-weight: 800; }
+  h1 .grad { background: linear-gradient(90deg, var(--green), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { color: var(--muted); font-size: 18px; max-width: 520px; margin: 0 0 28px; }
+  .lede strong { color: var(--text); font-weight: 600; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 18px; border-radius: 10px; font-weight: 600; font-size: 15px;
+    border: 1px solid var(--border); color: var(--text); background: var(--surface);
+    transition: transform .15s, border-color .15s;
+  }
+  .btn:hover { text-decoration: none; border-color: var(--muted); transform: translateY(-1px); }
+  .btn.primary { background: var(--green); color: #06120c; border-color: var(--green); }
+  .btn svg { width: 18px; height: 18px; }
+
+  /* terminal */
+  .term {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: 0 30px 80px -30px rgba(61,220,151,.25);
+    overflow: hidden; font-family: var(--mono); font-size: 13.5px;
+  }
+  .term-bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+  .term-bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+  .term-bar i:nth-child(1) { background: #ff5f57; }
+  .term-bar i:nth-child(2) { background: #febc2e; }
+  .term-bar i:nth-child(3) { background: #28c840; }
+  .term-bar span { margin-left: 8px; color: var(--muted); font-size: 12px; }
+  .term-body { padding: 16px 18px; min-height: 290px; white-space: pre-wrap; color: var(--text); }
+  .term-body .p { color: var(--green); }
+  .term-body .c { color: var(--muted); }
+  .term-body .h { color: var(--amber); }
+  .term-body .b { color: var(--blue); }
+  .cursor { display: inline-block; width: 8px; height: 16px; background: var(--green); vertical-align: -3px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* sections */
+  section { padding: 56px 0; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
+  .sec-head .num { font-family: var(--mono); color: var(--green); font-size: 14px; }
+  h2 { font-size: 28px; margin: 0; letter-spacing: -0.02em; }
+  .sec-head .line { flex: 1; height: 1px; background: var(--border); }
+
+  /* cert strip */
+  .certs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .cert {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px; display: flex; gap: 14px; align-items: center;
+  }
+  .cert .badge {
+    width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
+    font-family: var(--mono); font-weight: 700; font-size: 14px; flex-shrink: 0;
+    background: rgba(61,220,151,.1); color: var(--green); border: 1px solid rgba(61,220,151,.3);
+  }
+  .cert:nth-child(2) .badge { background: rgba(122,162,255,.1); color: var(--blue); border-color: rgba(122,162,255,.3); }
+  .cert:nth-child(3) .badge { background: rgba(255,198,109,.1); color: var(--amber); border-color: rgba(255,198,109,.3); }
+  .cert b { display: block; font-size: 16px; }
+  .cert small { color: var(--muted); font-size: 13px; }
+  .verify { margin-top: 12px; font-size: 14px; color: var(--muted); }
+
+  /* projects */
+  .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 22px; display: flex; flex-direction: column; gap: 12px;
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: #39405a; transform: translateY(-2px); }
+  .card.feature { grid-column: 1 / -1; background: linear-gradient(135deg, rgba(61,220,151,.07), rgba(122,162,255,.05) 60%, var(--surface)); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .card h3 { margin: 0; font-size: 19px; letter-spacing: -0.01em; }
+  .kind { font-family: var(--mono); font-size: 11.5px; color: var(--muted); border: 1px solid var(--border); padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .card ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14.5px; }
+  .card ul li { margin: 4px 0; }
+  .card ul li b { color: var(--text); font-weight: 600; }
+  .stats { display: flex; flex-wrap: wrap; gap: 26px; margin: 4px 0; }
+  .stat b { display: block; font-family: var(--mono); font-size: 22px; color: var(--green); }
+  .stat span { font-size: 12.5px; color: var(--muted); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+  .tag { font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 6px; background: var(--surface-2); color: var(--blue); border: 1px solid var(--border); }
+
+  /* experience */
+  .timeline { border-left: 2px solid var(--border); margin-left: 6px; }
+  .job { position: relative; padding: 0 0 30px 26px; }
+  .job::before {
+    content: ""; position: absolute; left: -7px; top: 6px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--green);
+  }
+  .job.now::before { background: var(--green); box-shadow: 0 0 0 5px rgba(61,220,151,.15); }
+  .job h3 { margin: 0; font-size: 17px; }
+  .job .meta { font-family: var(--mono); font-size: 13px; color: var(--muted); margin: 2px 0 8px; }
+  .job .meta b { color: var(--blue); font-weight: 500; }
+  .job p { margin: 0; color: var(--muted); font-size: 15px; max-width: 720px; }
+
+  /* hardware lab */
+  .lab { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .lab p { margin: 0 0 18px; color: var(--muted); max-width: 680px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    display: flex; flex-direction: column; padding: 10px 14px; border-radius: 10px;
+    background: var(--surface-2); border: 1px solid var(--border);
+  }
+  .chip b { font-family: var(--mono); font-size: 14px; color: var(--amber); font-weight: 500; }
+  .chip small { font-size: 12.5px; color: var(--muted); }
+  .chip.more { border-style: dashed; }
+  .chip.more b { color: var(--green); }
+  .life { margin-top: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; }
+  .life h3 { margin: 0 0 12px; font-size: 16px; }
+  .life-items { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--muted); font-size: 15px; }
+
+  /* toolbox */
+  .tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .tool-group { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+  .tool-group h4 { margin: 0 0 10px; font-family: var(--mono); font-size: 13px; color: var(--green); font-weight: 500; }
+  .tool-group ul { list-style: none; margin: 0; padding: 0; font-size: 14.5px; }
+  .tool-group li { padding: 3px 0; color: var(--text); }
+
+  /* contact */
+  .contact {
+    text-align: center; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 48px 24px;
+  }
+  .contact h2 { font-size: 32px; margin-bottom: 10px; }
+  .contact p { color: var(--muted); max-width: 520px; margin: 0 auto 24px; }
+  .contact .cta { justify-content: center; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 36px 0 48px; font-family: var(--mono); }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; padding-top: 56px; gap: 36px; }
+    .projects, .certs { grid-template-columns: 1fr; }
+    .tools { grid-template-columns: repeat(2, 1fr); }
+    nav ul { gap: 14px; }
+  }
+  @media (max-width: 520px) {
+    nav ul li:nth-child(n+3) { display: none; }
+    .tools { grid-template-columns: 1fr; }
+    .term-body { font-size: 12.5px; min-height: 250px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .cursor { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">w0x64<span>_</span></a>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#toolbox">Toolbox</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">// hi, I'm</div>
+      <h1>Carlos<br><span class="grad">Cardona</span></h1>
+      <p class="lede">
+        IT Field Support Engineer who <strong>automates the IT work nobody wants to do by hand</strong>.
+        Eight years across service desk, field engineering and enterprise systems,
+        and I build the tools that make that work faster.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#projects">See my projects</a>
+        <a class="btn" href="https://www.linkedin.com/in/carlos-cardona-019542276" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+        <a class="btn" href="https://github.com/w0x64" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="term" aria-label="Terminal intro">
+      <div class="term-bar"><i></i><i></i><i></i><span>carlos@w0x64 ~ zsh</span></div>
+      <div class="term-body" id="term"></div>
+    </div>
+  </header>
+
+  <!-- CERTS -->
+  <section class="reveal" id="certs">
+    <div class="sec-head"><span class="num">01</span><h2>Certified</h2><span class="line"></span></div>
+    <div class="certs">
+      <div class="cert"><div class="badge">A+</div><div><b>CompTIA A+</b><small>Hardware, OS &amp; troubleshooting</small></div></div>
+      <div class="cert"><div class="badge">N+</div><div><b>CompTIA Network+</b><small>Networking fundamentals</small></div></div>
+      <div class="cert"><div class="badge">S+</div><div><b>CompTIA Security+</b><small>Security operations</small></div></div>
+    </div>
+    <div class="verify">
+      → <a href="https://cp.certmetrics.com/comptia/en/public/transcript/0JBR9JSKMF14QJWF" target="_blank" rel="noopener">Verify on CompTIA CertMetrics</a>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="reveal" id="projects">
+    <div class="sec-head"><span class="num">02</span><h2>Things I've built</h2><span class="line"></span></div>
+    <div class="projects">
+
+      <article class="card feature">
+        <div class="card-top">
+          <h3>IT Ops Dashboard</h3>
+          <span class="kind">work project · private</span>
+        </div>
+        <p>
+          A local web app that runs the IT team's onboarding, offboarding and ticket workflows.
+          A new-hire ticket comes in and a finished, filled-in provisioning document goes out,
+          without anyone retyping a form.
+        </p>
+        <div class="stats">
+          <div class="stat"><b>70+</b><span>versioned releases</span></div>
+          <div class="stat"><b>3</b><span>automated pipelines</span></div>
+          <div class="stat"><b>0</b><span>outbound calls from the web app</span></div>
+        </div>
+        <ul>
+          <li><b>Ticket → document pipeline:</b> reads the Zendesk request form, applies IT's correction notes, fills the Excel template and files it in Box.</li>
+          <li><b>Live queue view:</b> a separate API poller keeps ticket activity current. The web app only reads what the poller writes, so a Zendesk outage shows a labeled fallback instead of an error.</li>
+          <li><b>Bug hunting:</b> found two Excel writers that silently corrupted the template (one dropped dropdowns, one dropped native checkboxes) and fixed them by patching the raw OpenXML.</li>
+          <li><b>Safe testing:</b> a generated sandbox copy runs on its own port with fake data, so nothing gets tested on live tickets.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Jinja2</span>
+          <span class="tag">Zendesk API</span><span class="tag">LibreOffice UNO</span><span class="tag">OpenXML</span><span class="tag">Box</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>AI Agent Skills for IT</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          Packaged AI-agent workflows that run IT processes end to end, portable enough to hand to a teammate.
+        </p>
+        <ul>
+          <li><b>Onboarding / offboarding:</b> scan the queue, extract each form, fill the template, deliver to Box.</li>
+          <li><b>Video → SOP:</b> turns a screen recording of a procedure into a written SOP in the house style.</li>
+        </ul>
+        <div class="tags"><span class="tag">Claude</span><span class="tag">Python</span><span class="tag">Browser automation</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Ticket Round-Robin</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          Shift-aware auto-assignment for the support queue. It knows who's on, rotates fairly,
+          and assigns tickets through the Zendesk API so nobody has to triage by hand.
+        </p>
+        <div class="tags"><span class="tag">Node.js</span><span class="tag">Zendesk API</span><span class="tag">Scheduling</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Reporting Deck Automation</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          Pulls live figures from a BI dashboard and builds a 21-slide PowerPoint report with
+          breakdowns and charts, then validates every number before it ships.
+        </p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">PowerPoint</span><span class="tag">BI dashboards</span><span class="tag">Data QA</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>tabscroll.lua</h3>
+          <span class="kind">personal · macOS</span>
+        </div>
+        <p>
+          Scroll the mouse wheel over Chrome's tab strip to switch tabs, like on Linux.
+          No extension can do this because Chrome draws its tabs as native macOS UI,
+          so this script watches scroll events at the OS level instead.
+        </p>
+        <div class="tags"><span class="tag">Lua</span><span class="tag">Hammerspoon</span><span class="tag">macOS</span></div>
+      </article>
+
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="reveal" id="experience">
+    <div class="sec-head"><span class="num">03</span><h2>Experience</h2><span class="line"></span></div>
+    <div class="timeline">
+      <div class="job now">
+        <h3>IT Field Support Engineer</h3>
+        <div class="meta"><b>Managed IT services firm</b> · Nov 2024 – Present</div>
+        <p>Deploy onsite and remote infrastructure for client environments. Provision users across Microsoft 365, Azure, Okta and AD. Support VIP users to SLA. Run structured cabling and patching. Build the automation tooling shown above.</p>
+      </div>
+      <div class="job">
+        <h3>IT Field Engineer</h3>
+        <div class="meta"><b>IT consulting firm</b> · Jul 2024 – Nov 2024</div>
+        <p>Onsite installs and Tier 2/3 support across multiple sites, covering Microsoft, network, POS and access systems, AD/O365 provisioning, MFA, VPN and Wi-Fi.</p>
+      </div>
+      <div class="job">
+        <h3>IT Business Systems Analyst</h3>
+        <div class="meta"><b>Multi-site retail company</b> · Dec 2021 – Aug 2023</div>
+        <p>Supported the enterprise warehouse management system. QA-tested software and DB changes, designed network diagrams for new distribution centers, and automated repetitive system tasks.</p>
+      </div>
+      <div class="job">
+        <h3>IT Service Desk Analyst</h3>
+        <div class="meta"><b>Multi-site retail company</b> · Aug 2018 – Dec 2021</div>
+        <p>Worked a high-volume ticket queue and supported POS, network gear and endpoints. Installed retail IT for store openings and modernized the SOP library.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARDWARE LAB -->
+  <section class="reveal" id="lab">
+    <div class="sec-head"><span class="num">04</span><h2>Off the clock: the hardware lab</h2><span class="line"></span></div>
+    <div class="lab">
+      <p>
+        I love getting my hands on hardware: radios, RFID, Wi-Fi and Bluetooth gadgets, single-board computers,
+        whatever I can find. Taking things apart on my own bench is how I really learn how they work.
+      </p>
+      <div class="chips">
+        <span class="chip"><b>Flipper Zero</b><small>RFID · NFC · Sub-GHz · IR</small></span>
+        <span class="chip"><b>HackRF One</b><small>software-defined radio</small></span>
+        <span class="chip"><b>BLEShark Nano</b><small>Wi-Fi · BLE · IR in your pocket</small></span>
+        <span class="chip"><b>Raspberry Pi</b><small>single-board builds &amp; tinkering</small></span>
+        <span class="chip more"><b>+ whatever's next</b><small>always hunting for new gear</small></span>
+      </div>
+    </div>
+    <div class="life">
+      <h3>When I'm not working on tech</h3>
+      <div class="life-items">
+        <span>🏡 Time with my wife and playing with my son</span>
+        <span>🔧 Working on my cars</span>
+        <span>🥾 Trail running &amp; hiking</span>
+        <span>🎧 Crime &amp; tech podcasts</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLBOX -->
+  <section class="reveal" id="toolbox">
+    <div class="sec-head"><span class="num">05</span><h2>Toolbox</h2><span class="line"></span></div>
+    <div class="tools">
+      <div class="tool-group"><h4>identity &amp; cloud</h4><ul><li>Microsoft 365</li><li>Azure / Entra ID</li><li>Active Directory</li><li>Okta</li><li>MDM</li></ul></div>
+      <div class="tool-group"><h4>network &amp; infra</h4><ul><li>Meraki</li><li>Cisco VPN</li><li>Windows Server</li><li>Structured cabling</li><li>Access control systems</li></ul></div>
+      <div class="tool-group"><h4>build &amp; automate</h4><ul><li>Python · FastAPI</li><li>Node.js</li><li>Lua</li><li>REST APIs</li><li>AI coding agents</li></ul></div>
+      <div class="tool-group"><h4>ops &amp; support</h4><ul><li>Zendesk</li><li>NinjaRMM</li><li>SQL Server (SSMS)</li><li>POS systems</li><li>Windows · macOS · Ubuntu</li></ul></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="reveal" id="contact">
+    <div class="contact">
+      <h2>Let's talk</h2>
+      <p>Open to IT, systems and automation roles. Or just say hi if something here looked cool.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://www.linkedin.com/in/carlos-cardona-019542276" target="_blank" rel="noopener">Connect on LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>built by carlos · hosted on github pages · <span id="yr"></span></footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  // Terminal intro
+  const lines = [
+    { cmd: "whoami" },
+    { out: '<span class="h">Carlos Cardona</span> · IT Field Support Engineer' },
+    { cmd: "cat certs.txt" },
+    { out: 'CompTIA <span class="b">A+</span>  <span class="b">Network+</span>  <span class="b">Security+</span>' },
+    { cmd: "ls ~/projects" },
+    { out: 'ops-dashboard/   ai-skills/   round-robin/\nreport-deck/     tabscroll.lua  hw-lab/' },
+    { cmd: "echo $MOTTO" },
+    { out: '<span class="c"># if I do it twice, I automate it</span>' },
+  ];
+  const term = document.getElementById("term");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const prompt = '<span class="p">❯</span> ';
+
+  function render(done, partial) {
+    term.innerHTML = done.join("\n") + (partial !== undefined ? "\n" + partial : "") + '<span class="cursor"></span>';
+  }
+
+  if (reduce) {
+    const out = lines.map(l => l.cmd ? prompt + l.cmd : l.out);
+    render(out, prompt);
+  } else {
+    const done = [];
+    let i = 0;
+    (function next() {
+      if (i >= lines.length) { render(done, prompt); return; }
+      const l = lines[i++];
+      if (l.out) { done.push(l.out); render(done); setTimeout(next, 350); return; }
+      let c = 0;
+      (function type() {
+        render(done, prompt + l.cmd.slice(0, c));
+        if (c++ < l.cmd.length) setTimeout(type, 55 + Math.random() * 50);
+        else { done.push(prompt + l.cmd); setTimeout(next, 260); }
+      })();
+    })();
+  }
+
+  // Reveal on scroll
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }), { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
