@@ -153,6 +153,44 @@
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
   .tag { font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 6px; background: var(--surface-2); color: var(--blue); border: 1px solid var(--border); }
 
+  /* deep dive */
+  .arch { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .arch-head h3, .evo-title { margin: 0 0 6px; font-size: 19px; letter-spacing: -0.01em; }
+  .arch-head p { margin: 0 0 18px; color: var(--muted); font-size: 15px; max-width: 720px; }
+  .arch-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-color: var(--border) transparent; scrollbar-width: thin; padding-bottom: 6px; }
+  .arch-scroll::-webkit-scrollbar { height: 6px; }
+  .arch-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .arch-svg { display: block; width: 100%; min-width: 560px; max-width: 760px; margin: 0 auto; height: auto; }
+  .arch-svg .n { fill: var(--surface-2); stroke: var(--border); stroke-width: 1.5; }
+  .arch-svg .n-cloud { stroke: rgba(122,162,255,.7); }
+  .arch-svg .n-worker { stroke: rgba(61,220,151,.6); }
+  .arch-svg .n-out { stroke: rgba(255,198,109,.6); }
+  .arch-svg .n-sand { stroke-dasharray: 5 4; }
+  .arch-svg .t { fill: var(--text); font: 600 13.5px var(--sans); }
+  .arch-svg .s { fill: var(--muted); font: 12px var(--sans); }
+  .arch-svg .lbl { fill: var(--muted); font: 11px var(--mono); }
+  .arch-svg .lbl-b { fill: var(--green); }
+  .arch-svg .edge { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+  .arch-svg .edge-dash { stroke-dasharray: 4 4; }
+  .arch-svg .ah { fill: var(--muted); }
+  .arch-svg .boundary { stroke: var(--green); stroke-width: 1.2; stroke-dasharray: 6 5; opacity: .7; }
+  .evo-title { margin-top: 34px; }
+  .evo-sub { margin: 0 0 18px; color: var(--muted); font-size: 15px; }
+  .evo { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; counter-reset: evo; }
+  .evo li {
+    counter-increment: evo; position: relative;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px 18px;
+  }
+  .evo li::before {
+    content: counter(evo, decimal-leading-zero); position: absolute; top: 14px; right: 16px;
+    font-family: var(--mono); font-size: 12px; color: var(--border);
+  }
+  .evo .when { display: block; font-family: var(--mono); font-size: 12px; color: var(--blue); margin-bottom: 4px; }
+  .evo b { display: block; font-size: 16px; margin-bottom: 6px; }
+  .evo p { margin: 0; color: var(--muted); font-size: 14px; }
+  .evo li.now { border-color: rgba(61,220,151,.45); background: linear-gradient(135deg, rgba(61,220,151,.07), var(--surface) 70%); }
+  .evo li.now .when { color: var(--green); }
+
   /* experience */
   .timeline { border-left: 2px solid var(--border); margin-left: 6px; }
   .job { position: relative; padding: 0 0 30px 26px; }
@@ -206,12 +244,14 @@
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; padding-top: 56px; gap: 36px; }
     .projects, .certs { grid-template-columns: 1fr; }
+    .evo { grid-template-columns: repeat(2, 1fr); }
     .tools { grid-template-columns: repeat(2, 1fr); }
     nav ul { gap: 14px; }
   }
   @media (max-width: 520px) {
     nav ul li:nth-child(n+3) { display: none; }
-    .tools { grid-template-columns: 1fr; }
+    .tools, .evo { grid-template-columns: 1fr; }
+    .arch { padding: 16px; }
     .term-body { font-size: 12.5px; min-height: 250px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -302,12 +342,13 @@
           <li><b>Ticket → document pipeline:</b> reads the Zendesk request form, applies IT's correction notes, fills the Excel template and files it in Box.</li>
           <li><b>Live queue view:</b> a separate API poller keeps ticket activity current. The web app only reads what the poller writes, so a Zendesk outage shows a labeled fallback instead of an error.</li>
           <li><b>Bug hunting:</b> found two Excel writers that silently corrupted the template (one dropped dropdowns, one dropped native checkboxes) and fixed them by patching the raw OpenXML.</li>
-          <li><b>Safe testing:</b> a generated sandbox copy runs on its own port with fake data, so nothing gets tested on live tickets.</li>
+          <li><b>Safe testing:</b> a generated sandbox copy runs on its own port with its own data and templates, so changes get tested before they touch the live app.</li>
         </ul>
         <div class="tags">
           <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Jinja2</span>
           <span class="tag">Zendesk API</span><span class="tag">LibreOffice UNO</span><span class="tag">OpenXML</span><span class="tag">Box</span>
         </div>
+        <a class="code-link" href="#deep-dive">How it's built and how it got here ↓</a>
       </article>
 
       <article class="card">
@@ -367,9 +408,159 @@
     </div>
   </section>
 
+  <!-- DEEP DIVE -->
+  <section class="reveal" id="deep-dive">
+    <div class="sec-head"><span class="num">03</span><h2>Inside the IT Ops Dashboard</h2><span class="line"></span></div>
+
+    <div class="arch">
+      <div class="arch-head">
+        <h3>How it fits together</h3>
+        <p>Only the small workers at the top talk to the internet. Everything below the line runs on the laptop and works from local files, so the dashboard loads instantly and keeps working through a Zendesk outage.</p>
+      </div>
+      <div class="arch-scroll">
+        <svg class="arch-svg" viewBox="0 0 640 516" role="img" aria-labelledby="arch-title arch-desc">
+          <title id="arch-title">IT Ops Dashboard architecture</title>
+          <desc id="arch-desc">Zendesk at the top. Three workers talk to it: an AI browser agent that reads new-hire and offboarding forms, a Node.js activity poller, and a Node.js round-robin assigner. Below a network boundary, everything writes to local JSON files. A FastAPI dashboard on 127.0.0.1 reads those files and triggers a document generator (Python and headless LibreOffice with OpenXML checkbox repair), which produces an Excel provisioning document saved to Box and a PowerShell AD user script. A sandbox copy runs separately on port 8421.</desc>
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path class="ah" d="M0,0 L10,5 L0,10 z"/>
+            </marker>
+          </defs>
+
+          <!-- cloud -->
+          <rect class="n n-cloud" x="15" y="16" width="610" height="46" rx="10"/>
+          <text class="t" x="320" y="36" text-anchor="middle">Zendesk</text>
+          <text class="s" x="320" y="53" text-anchor="middle">ticket queue · cloud</text>
+
+          <!-- workers -->
+          <line class="edge" x1="110" y1="62" x2="110" y2="108" marker-end="url(#ah)"/>
+          <text class="lbl" x="118" y="90">reads</text>
+          <line class="edge" x1="320" y1="62" x2="320" y2="108" marker-end="url(#ah)"/>
+          <text class="lbl" x="328" y="90">API</text>
+          <line class="edge" x1="530" y1="108" x2="530" y2="64" marker-end="url(#ah)"/>
+          <text class="lbl" x="538" y="90">assigns</text>
+
+          <rect class="n n-worker" x="15" y="110" width="190" height="70" rx="10"/>
+          <text class="t" x="110" y="133" text-anchor="middle">AI browser agent</text>
+          <text class="s" x="110" y="151" text-anchor="middle">reads new-hire &amp;</text>
+          <text class="s" x="110" y="166" text-anchor="middle">offboarding forms</text>
+
+          <rect class="n n-worker" x="225" y="110" width="190" height="70" rx="10"/>
+          <text class="t" x="320" y="133" text-anchor="middle">Activity poller</text>
+          <text class="s" x="320" y="151" text-anchor="middle">Node.js · queue, archive,</text>
+          <text class="s" x="320" y="166" text-anchor="middle">solved-ticket stats</text>
+
+          <rect class="n n-worker" x="435" y="110" width="190" height="70" rx="10"/>
+          <text class="t" x="530" y="133" text-anchor="middle">Round-robin assigner</text>
+          <text class="s" x="530" y="151" text-anchor="middle">Node.js · hands out</text>
+          <text class="s" x="530" y="166" text-anchor="middle">tickets by shift</text>
+
+          <!-- network boundary -->
+          <line class="boundary" x1="15" y1="202" x2="625" y2="202"/>
+          <text class="lbl lbl-b" x="10" y="196">▲ internet</text>
+          <text class="lbl lbl-b" x="10" y="217">▼ local only</text>
+
+          <line class="edge" x1="110" y1="180" x2="110" y2="226" marker-end="url(#ah)"/>
+          <line class="edge" x1="320" y1="180" x2="320" y2="226" marker-end="url(#ah)"/>
+          <line class="edge" x1="530" y1="180" x2="530" y2="226" marker-end="url(#ah)"/>
+
+          <!-- local files -->
+          <rect class="n n-local" x="15" y="228" width="610" height="48" rx="10"/>
+          <text class="t" x="320" y="249" text-anchor="middle">Local JSON files</text>
+          <text class="s" x="320" y="266" text-anchor="middle">ticket exports · queue snapshots · status files (atomic writes)</text>
+
+          <line class="edge" x1="157" y1="276" x2="157" y2="318" marker-end="url(#ah)"/>
+          <line class="edge" x1="482" y1="276" x2="482" y2="318" marker-end="url(#ah)"/>
+
+          <!-- app + generator -->
+          <rect class="n n-local" x="15" y="320" width="285" height="72" rx="10"/>
+          <text class="t" x="157" y="343" text-anchor="middle">FastAPI dashboard</text>
+          <text class="s" x="157" y="361" text-anchor="middle">127.0.0.1 only · reads files,</text>
+          <text class="s" x="157" y="376" text-anchor="middle">never calls out</text>
+
+          <line class="edge" x1="300" y1="360" x2="338" y2="360" marker-end="url(#ah)"/>
+          <text class="lbl" x="319" y="352" text-anchor="middle">run</text>
+
+          <rect class="n n-local" x="340" y="320" width="285" height="72" rx="10"/>
+          <text class="t" x="482" y="343" text-anchor="middle">Document generator</text>
+          <text class="s" x="482" y="361" text-anchor="middle">Python + headless LibreOffice</text>
+          <text class="s" x="482" y="376" text-anchor="middle">+ OpenXML checkbox repair</text>
+
+          <!-- outputs -->
+          <line class="edge" x1="407" y1="392" x2="407" y2="438" marker-end="url(#ah)"/>
+          <line class="edge" x1="557" y1="392" x2="557" y2="438" marker-end="url(#ah)"/>
+          <line class="edge edge-dash" x1="157" y1="392" x2="157" y2="440"/>
+          <text class="lbl" x="165" y="420">mirror</text>
+
+          <rect class="n n-out" x="340" y="440" width="135" height="60" rx="10"/>
+          <text class="t" x="407" y="465" text-anchor="middle">Excel doc → Box</text>
+          <text class="s" x="407" y="483" text-anchor="middle">upload verified</text>
+
+          <rect class="n n-out" x="490" y="440" width="135" height="60" rx="10"/>
+          <text class="t" x="557" y="465" text-anchor="middle">AD user script</text>
+          <text class="s" x="557" y="483" text-anchor="middle">.ps1, ready to run</text>
+
+          <rect class="n n-sand" x="15" y="440" width="285" height="60" rx="10"/>
+          <text class="t" x="157" y="465" text-anchor="middle">Sandbox copy</text>
+          <text class="s" x="157" y="483" text-anchor="middle">port 8421 · test before going live</text>
+        </svg>
+      </div>
+    </div>
+
+    <h3 class="evo-title">How it got here</h3>
+    <p class="evo-sub">It didn't start as a dashboard. It started as a chore I got tired of doing by hand.</p>
+    <ol class="evo">
+      <li>
+        <span class="when">Sep 2025</span>
+        <b>By hand</b>
+        <p>Every new-hire and offboarding document filled in manually from the ticket.</p>
+      </li>
+      <li>
+        <span class="when">Sep 2025 → Feb 2026</span>
+        <b>My own scripts, v1 → v5</b>
+        <p>Python scripts that build the username and email and generate the doc from the template. By v5 I'd learned the hard way that some Excel libraries drop images, so it drives real Excel instead.</p>
+      </li>
+      <li>
+        <span class="when">2026</span>
+        <b>A Chrome extension</b>
+        <p>Batch-opens tickets from the queue, scrapes each form with five layered extraction strategies, scores every frame to find the real form, and exports clean JSON.</p>
+      </li>
+      <li>
+        <span class="when">2026</span>
+        <b>AI agent pipeline</b>
+        <p>Ported the extension's extraction logic to Python, driven by an AI browser agent. A separate step fills the template and saves it to Box.</p>
+      </li>
+      <li>
+        <span class="when">v0.1 → v0.12</span>
+        <b>A local dashboard</b>
+        <p>FastAPI on 127.0.0.1: one-click runs, a retry queue for failures, full ticket search, a monthly hires/departures report, one-click backup.</p>
+      </li>
+      <li>
+        <span class="when">v0.16 → v0.19</span>
+        <b>No Excel needed, plus AD</b>
+        <p>Swapped Excel automation for headless LibreOffice (no more permission prompts) and started generating a ready-to-run PowerShell AD user-creation script from each ticket.</p>
+      </li>
+      <li>
+        <span class="when">Aug 2026 · v0.20</span>
+        <b>Git + a sandbox</b>
+        <p>After a close call, I put everything under version control and built a full sandbox copy to test changes before they touch live.</p>
+      </li>
+      <li>
+        <span class="when">Aug 2026 · v0.29 → v0.30</span>
+        <b>Live from the API</b>
+        <p>A Node.js poller makes the queue view live from the Zendesk API, and a round-robin assigner hands out tickets. The old browser sync stays as a clearly labeled fallback.</p>
+      </li>
+      <li class="now">
+        <span class="when">Aug → Oct 2026 · v0.33 → v0.72</span>
+        <b>Hardening</b>
+        <p>Checkboxes that survive generation, verified Box uploads, health alarms that only fire when something's actually wrong, and tickets readable right inside the dashboard.</p>
+      </li>
+    </ol>
+  </section>
+
   <!-- EXPERIENCE -->
   <section class="reveal" id="experience">
-    <div class="sec-head"><span class="num">03</span><h2>Experience</h2><span class="line"></span></div>
+    <div class="sec-head"><span class="num">04</span><h2>Experience</h2><span class="line"></span></div>
     <div class="timeline">
       <div class="job now">
         <h3>IT Field Support Engineer</h3>
@@ -396,7 +587,7 @@
 
   <!-- HARDWARE LAB -->
   <section class="reveal" id="lab">
-    <div class="sec-head"><span class="num">04</span><h2>Off the clock: the hardware lab</h2><span class="line"></span></div>
+    <div class="sec-head"><span class="num">05</span><h2>Off the clock: the hardware lab</h2><span class="line"></span></div>
     <div class="lab">
       <p>
         I love getting my hands on hardware: radios, RFID, Wi-Fi and Bluetooth gadgets, single-board computers,
@@ -423,7 +614,7 @@
 
   <!-- TOOLBOX -->
   <section class="reveal" id="toolbox">
-    <div class="sec-head"><span class="num">05</span><h2>Toolbox</h2><span class="line"></span></div>
+    <div class="sec-head"><span class="num">06</span><h2>Toolbox</h2><span class="line"></span></div>
     <div class="tools">
       <div class="tool-group"><h4>identity &amp; cloud</h4><ul><li>Microsoft 365</li><li>Azure / Entra ID</li><li>Active Directory</li><li>Okta</li><li>MDM</li></ul></div>
       <div class="tool-group"><h4>network &amp; infra</h4><ul><li>Meraki</li><li>Cisco VPN</li><li>Windows Server</li><li>Structured cabling</li><li>Access control systems</li></ul></div>
