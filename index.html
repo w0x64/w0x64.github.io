@@ -343,7 +343,7 @@
           without anyone retyping a form.
         </p>
         <div class="stats">
-          <div class="stat"><b>70+</b><span>versioned releases</span></div>
+          <div class="stat"><b>80+</b><span>versioned releases</span></div>
           <div class="stat"><b>3</b><span>automated pipelines</span></div>
           <div class="stat"><b>0</b><span>outbound calls from the web app</span></div>
         </div>
@@ -376,6 +376,99 @@
         </ul>
         <div class="tags"><span class="tag">PowerShell</span><span class="tag">Windows</span><span class="tag">Networking</span><span class="tag">Security</span></div>
         <a class="code-link" href="https://github.com/w0x64/windows-environment-assessment" target="_blank" rel="noopener">View the code →</a>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Offboarding Console</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          Runs after a leaver's AD account is disabled. It pulls the offboarding tickets on its own,
+          reads everything the person had across Microsoft 365, Exchange, Okta and Zoom, and saves a
+          "before cleanup" record that's never overwritten, so anyone re-hired can be restored exactly.
+        </p>
+        <ul>
+          <li><b>Look before you touch:</b> look-ups only read. Removal is guided, with its own confirmation for each system.</li>
+          <li><b>Audit trail:</b> a full history of every change, exportable as a spreadsheet for review.</li>
+          <li><b>Hand-off ready:</b> comes with an animated walkthrough video so a teammate can run it.</li>
+        </ul>
+        <div class="tags"><span class="tag">Microsoft 365</span><span class="tag">Okta</span><span class="tag">Zoom</span><span class="tag">Browser automation</span><span class="tag">Audit trail</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Badge Console</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          Turns photos of printed access badges into finished access-control records. AI reads the
+          name and badge number off the photos, and the console sets up the person end to end.
+        </p>
+        <ul>
+          <li><b>Dry run first:</b> "Check first" shows exactly what would change before anything does.</li>
+          <li><b>Verified:</b> creates the card and user, assigns access groups, then reads the record back to confirm.</li>
+          <li><b>Nothing lost:</b> replacement badges end-date the old card instead of deleting it, so the audit trail stays intact. Duplicate cards and people are caught before they're created.</li>
+        </ul>
+        <div class="tags"><span class="tag">Access control</span><span class="tag">AI vision</span><span class="tag">Browser automation</span><span class="tag">Audit trail</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Team Ticket Board</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          A shared, live view of the support queue: counts by status, each tech's workload, the oldest
+          tickets, and who solved what this week.
+        </p>
+        <ul>
+          <li><b>Team layer:</b> claim a ticket, flag it, or leave a note for the team without touching the ticketing system.</li>
+          <li><b>AI triage:</b> one button picks the few tickets that need someone most, and drafts a reply you could send.</li>
+        </ul>
+        <div class="tags"><span class="tag">Zendesk API</span><span class="tag">Claude</span><span class="tag">Live data</span><span class="tag">Data viz</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Late Order Book</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          An executive dashboard built after two reviews quoted different "late" numbers for the same
+          order book. It makes the number impossible to misquote.
+        </p>
+        <ul>
+          <li><b>One threshold, everywhere:</b> a single setting drives every page and is stamped on every screenshot.</li>
+          <li><b>Two problems, kept apart:</b> Late and Not Scheduling are never blended, so one can't hide the other.</li>
+          <li><b>What moved overnight:</b> daily snapshots power day-over-day movers and "needs a look" alerts.</li>
+        </ul>
+        <div class="tags"><span class="tag">Dashboards</span><span class="tag">KPI design</span><span class="tag">CSV</span><span class="tag">Data QA</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Laptop Build Timing Analysis</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          Turned a 130-event device log into a minute-by-minute timeline of one laptop build. It showed a
+          domain-join reboot silently killing the Office install, and reordering the steps cuts a build
+          from 1h 51m to about 1h 20m.
+        </p>
+        <div class="tags"><span class="tag">RMM logs</span><span class="tag">Windows deployment</span><span class="tag">Root cause</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Local Media Converter</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          Convert to H.264, trim, mute, make GIFs, grab frames, pull audio and batch-convert iPhone
+          photos, all in the browser. Files never leave the computer.
+        </p>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">WebCodecs</span><span class="tag">Privacy</span></div>
       </article>
 
       <article class="card">
@@ -591,10 +684,15 @@
         <b>Live from the API</b>
         <p>A Node.js poller makes the queue view live from the Zendesk API, and a round-robin assigner hands out tickets. The old browser sync stays as a clearly labeled fallback.</p>
       </li>
-      <li class="now">
+      <li>
         <span class="when">Aug → Oct 2026 · v0.33 → v0.72</span>
         <b>Hardening</b>
         <p>Checkboxes that survive generation, verified Box uploads, health alarms that only fire when something's actually wrong, and tickets readable right inside the dashboard.</p>
+      </li>
+      <li class="now">
+        <span class="when">Oct → Nov 2026 · v0.82</span>
+        <b>Shared with the team</b>
+        <p>The dashboard now publishes its queue snapshot to a shared team ticket board, and a one-page security overview explains to IT leadership where it runs and what it can't do. Recent run: 8 records in about 16 seconds, versus about 20 minutes of retyping each.</p>
       </li>
     </ol>
   </section>
