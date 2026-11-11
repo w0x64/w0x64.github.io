@@ -442,6 +442,7 @@
           <li><b>One threshold, everywhere:</b> a single setting drives every page and is stamped on every screenshot.</li>
           <li><b>Two problems, kept apart:</b> Late and Not Scheduling are never blended, so one can't hide the other.</li>
           <li><b>What moved overnight:</b> daily snapshots power day-over-day movers and "needs a look" alerts.</li>
+          <li><b>Watched the real process first:</b> a recording of the stakeholder doing the job showed my first model was wrong in seven ways, so I documented the gaps and rebuilt around how the work is actually done.</li>
         </ul>
         <div class="tags"><span class="tag">Dashboards</span><span class="tag">KPI design</span><span class="tag">CSV</span><span class="tag">Data QA</span></div>
       </article>
@@ -457,6 +458,39 @@
           from 1h 51m to about 1h 20m.
         </p>
         <div class="tags"><span class="tag">RMM logs</span><span class="tag">Windows deployment</span><span class="tag">Root cause</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Chrome Side Panel for Tickets</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          A browser side panel that puts the right playbook, past fixes and reply templates next to
+          every support ticket, with the requester's name already filled in.
+        </p>
+        <ul>
+          <li><b>No extra load:</b> it reads only from my local dashboard, so it adds zero API calls.</li>
+          <li><b>Locked down:</b> only the paired extension can read it, and private notes never leave the dashboard.</li>
+          <li><b>Human in charge:</b> it can insert a reply, but I still choose public or internal and hit submit.</li>
+        </ul>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">Chrome extension</span><span class="tag">FastAPI</span><span class="tag">23/23 checks</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>In the Field: Root Cause Over Guesswork</h3>
+          <span class="kind">field work</span>
+        </div>
+        <p>
+          The fixes that don't make a dashboard, but matter just as much.
+        </p>
+        <ul>
+          <li><b>Proved it wasn't the network:</b> when a vendor blamed the network for a dead door station, I patched a known-good line from the same switch port to a test device, confirmed link and IP, and got the hardware replaced instead of a repeat visit.</li>
+          <li><b>Found the silent backup failure:</b> one stuck job had been blocking every scheduled laptop backup for months. I separated it from a harmless recurring warning that was hiding it, and escalated to the right owner with the evidence.</li>
+          <li><b>Cut alert noise:</b> rebuilt my alert routing so security and system alerts stop getting buried: 33 rules audited and reordered, inbox from about 14,000 to under 1,000.</li>
+        </ul>
+        <div class="tags"><span class="tag">Troubleshooting</span><span class="tag">Cabling</span><span class="tag">Vendor management</span><span class="tag">Alert hygiene</span></div>
       </article>
 
       <article class="card">
@@ -489,13 +523,18 @@
       <article class="card">
         <div class="card-top">
           <h3>Ticket Round-Robin</h3>
-          <span class="kind">work project</span>
+          <span class="kind">took over · hardened</span>
         </div>
         <p>
-          Shift-aware auto-assignment for the support queue. It knows who's on, rotates fairly,
-          and assigns tickets through the Zendesk API so nobody has to triage by hand.
+          A teammate built a shift-aware auto-assigner for the support queue. I took it over and
+          brought it into my dashboard safely, because it writes to the live ticketing system.
         </p>
-        <div class="tags"><span class="tag">Node.js</span><span class="tag">Zendesk API</span><span class="tag">Scheduling</span></div>
+        <ul>
+          <li><b>Staged rollout:</b> dry run first, then confirm each ticket, then automatic only as its own switch.</li>
+          <li><b>Guardrails:</b> no more than 5 assignments per cycle, a log of every real write, and 18 automated tests.</li>
+          <li><b>Bug fix:</b> the live queue view stopped at the search API's 1,000-result limit; fixed the paging and made it say so when data is partial.</li>
+        </ul>
+        <div class="tags"><span class="tag">Node.js</span><span class="tag">Zendesk API</span><span class="tag">Testing</span><span class="tag">Change control</span></div>
       </article>
 
       <article class="card">
@@ -504,9 +543,14 @@
           <span class="kind">work project</span>
         </div>
         <p>
-          Pulls live figures from a BI dashboard and builds a 21-slide PowerPoint report with
-          breakdowns and charts, then validates every number before it ships.
+          Pulls live figures from a BI dashboard and builds a 45-slide PowerPoint report with
+          breakdowns and charts, then validates every number before it ships. A report that used to
+          take a week and a half now takes about 20 minutes.
         </p>
+        <ul>
+          <li><b>Feedback, organized:</b> turned 40+ reviewer notes across 33 slides into one themed punch list.</li>
+          <li><b>Repeatable:</b> other teams can request the same automation through a set intake process.</li>
+        </ul>
         <div class="tags"><span class="tag">Python</span><span class="tag">PowerPoint</span><span class="tag">BI dashboards</span><span class="tag">Data QA</span></div>
       </article>
 
@@ -682,7 +726,7 @@
       <li>
         <span class="when">Aug 2026 · v0.29 → v0.30</span>
         <b>Live from the API</b>
-        <p>A Node.js poller makes the queue view live from the Zendesk API, and a round-robin assigner hands out tickets. The old browser sync stays as a clearly labeled fallback.</p>
+        <p>A Node.js poller makes the queue view live from the Zendesk API, and a round-robin assigner (built by a teammate, taken over and hardened by me) hands out tickets. The old browser sync stays as a clearly labeled fallback.</p>
       </li>
       <li>
         <span class="when">Aug → Oct 2026 · v0.33 → v0.72</span>
@@ -690,9 +734,9 @@
         <p>Checkboxes that survive generation, verified Box uploads, health alarms that only fire when something's actually wrong, and tickets readable right inside the dashboard.</p>
       </li>
       <li class="now">
-        <span class="when">Oct → Nov 2026 · v0.82</span>
+        <span class="when">Oct → Nov 2026 · v0.78 → v0.83</span>
         <b>Shared with the team</b>
-        <p>The dashboard now publishes its queue snapshot to a shared team ticket board, and a one-page security overview explains to IT leadership where it runs and what it can't do. Recent run: 8 records in about 16 seconds, versus about 20 minutes of retyping each.</p>
+        <p>The dashboard now publishes its queue snapshot to a shared team ticket board, and a one-page security overview explains to IT leadership where it runs and what it can't do. Added a Chrome side panel for tickets (v0.78) and a refreshed look (v0.83). Recent run: 8 records in about 16 seconds, versus about 20 minutes of retyping each.</p>
       </li>
     </ol>
   </section>
@@ -758,7 +802,7 @@
       <div class="tool-group"><h4>identity &amp; cloud</h4><ul><li>Microsoft 365</li><li>Azure / Entra ID</li><li>Active Directory</li><li>Okta</li><li>MDM</li></ul></div>
       <div class="tool-group"><h4>network &amp; infra</h4><ul><li>Meraki</li><li>Cisco VPN</li><li>Windows Server</li><li>Structured cabling</li><li>Access control systems</li></ul></div>
       <div class="tool-group"><h4>build &amp; automate</h4><ul><li>Python · FastAPI</li><li>Node.js</li><li>Lua</li><li>REST APIs</li><li>AI coding agents</li></ul></div>
-      <div class="tool-group"><h4>ops &amp; support</h4><ul><li>Zendesk</li><li>NinjaRMM</li><li>SQL Server (SSMS)</li><li>POS systems</li><li>Windows · macOS · Ubuntu</li></ul></div>
+      <div class="tool-group"><h4>ops &amp; support</h4><ul><li>Zendesk</li><li>NinjaRMM</li><li>SQL Server (SSMS)</li><li>POS systems</li><li>Windows · macOS · Ubuntu</li><li>English · conversational Spanish</li></ul></div>
     </div>
   </section>
 
