@@ -385,15 +385,17 @@
         </div>
         <p>
           Runs after a leaver's AD account is disabled. It pulls the offboarding tickets on its own,
-          reads everything the person had across Microsoft 365, Exchange, Okta and Zoom, and saves a
-          "before cleanup" record that's never overwritten, so anyone re-hired can be restored exactly.
+          reads everything the person had across seven admin systems (Microsoft 365, Exchange, Okta, Zoom,
+          Adobe, Box and access control), and saves a "before cleanup" record that's never overwritten,
+          so anyone re-hired can be restored exactly.
         </p>
         <ul>
           <li><b>Look before you touch:</b> look-ups only read. Removal is guided, with its own confirmation for each system.</li>
-          <li><b>Audit trail:</b> a full history of every change, exportable as a spreadsheet for review.</li>
-          <li><b>Hand-off ready:</b> comes with an animated walkthrough video so a teammate can run it.</li>
+          <li><b>Batch mode:</b> pulls every leaver from the last 60 days and looks them all up in one pass, then exports the list for a manager.</li>
+          <li><b>Checklist that matches HR's:</b> the offboarding sheet's 17 steps, each marked with who did it, and copied back into the sheet.</li>
+          <li><b>Audit trail and hand-off:</b> a full, exportable history of every change, plus an animated walkthrough so a teammate can run it.</li>
         </ul>
-        <div class="tags"><span class="tag">Microsoft 365</span><span class="tag">Okta</span><span class="tag">Zoom</span><span class="tag">Browser automation</span><span class="tag">Audit trail</span></div>
+        <div class="tags"><span class="tag">Microsoft 365</span><span class="tag">Okta</span><span class="tag">Zoom</span><span class="tag">Adobe</span><span class="tag">Box</span><span class="tag">Browser automation</span><span class="tag">Audit trail</span></div>
       </article>
 
       <article class="card">
@@ -409,8 +411,27 @@
           <li><b>Dry run first:</b> "Check first" shows exactly what would change before anything does.</li>
           <li><b>Verified:</b> creates the card and user, assigns access groups, then reads the record back to confirm.</li>
           <li><b>Nothing lost:</b> replacement badges end-date the old card instead of deleting it, so the audit trail stays intact. Duplicate cards and people are caught before they're created.</li>
+          <li><b>A stack at once:</b> photograph the fronts, flip each card where it lies, photograph the backs, and the console pairs them by position. Leavers get every card they hold end-dated in one step.</li>
         </ul>
         <div class="tags"><span class="tag">Access control</span><span class="tag">AI vision</span><span class="tag">Browser automation</span><span class="tag">Audit trail</span></div>
+      </article>
+      <article class="card">
+        <div class="card-top">
+          <h3>Door &amp; Access Console</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          An interactive map of a warehouse's access-control system, built from the security
+          integrator's drawing set: 137 devices, including 77 door contacts and 35 card readers,
+          each one clickable. Version 1 to 2.3 shipped in a day, including a full bug review.
+        </p>
+        <ul>
+          <li><b>Field walk:</b> walk the building, photograph and test every badge reader. AI reads the device labels, and each result saves to that device's pin for the whole team.</li>
+          <li><b>Vendor work, tracked:</b> drafts the service request for the integrator, logs every visit with trip, labor and parts cost, and flags discontinued hardware.</li>
+          <li><b>Ask the building:</b> AI answers questions like "what's open with the vendor?" from the console's own records only.</li>
+          <li><b>Ready for live data:</b> a Wi-Fi coverage layer from a site survey, plus a door-activity timeline with map replay that fills in once the access system's API access is issued.</li>
+        </ul>
+        <div class="tags"><span class="tag">Access control</span><span class="tag">Site mapping</span><span class="tag">AI vision</span><span class="tag">Field rounds</span><span class="tag">Shared records</span></div>
       </article>
 
       <article class="card">
