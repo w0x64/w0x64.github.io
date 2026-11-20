@@ -146,6 +146,14 @@
     transition: border-color .2s, transform .2s;
   }
   .card:hover { border-color: #39405a; transform: translateY(-2px); }
+  .card.wide { grid-column: 1 / -1; }
+  .projects-sub { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 12px; margin: 26px 0 0; }
+  .projects-sub h3 { margin: 0; font-size: 18px; }
+  .projects-sub span { font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+  .projects-sub .line { flex: 1; height: 1px; background: var(--border); }
+  .projects-sub-note { grid-column: 1 / -1; margin: -6px 0 2px; color: var(--muted); font-size: 15px; max-width: 760px; }
+  .job .tribute { margin: 12px 0 0; padding-left: 12px; border-left: 2px solid var(--green); color: var(--text); font-style: italic; font-size: 14.5px; max-width: 720px; }
+  .job .tribute b { font-style: normal; font-family: var(--mono); font-weight: 500; color: var(--green); }
   .card.feature { grid-column: 1 / -1; background: linear-gradient(135deg, rgba(61,220,151,.07), rgba(122,162,255,.05) 60%, var(--surface)); }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
   .card h3 { margin: 0; font-size: 19px; letter-spacing: -0.01em; }
@@ -498,7 +506,7 @@
         <div class="tags"><span class="tag">JavaScript</span><span class="tag">Chrome extension</span><span class="tag">FastAPI</span><span class="tag">23/23 checks</span></div>
       </article>
 
-      <article class="card">
+      <article class="card wide">
         <div class="card-top">
           <h3>In the Field: Root Cause Over Guesswork</h3>
           <span class="kind">field work</span>
@@ -512,6 +520,39 @@
           <li><b>Cut alert noise:</b> rebuilt my alert routing so security and system alerts stop getting buried: 33 rules audited and reordered, inbox from about 14,000 to under 1,000.</li>
         </ul>
         <div class="tags"><span class="tag">Troubleshooting</span><span class="tag">Cabling</span><span class="tag">Vendor management</span><span class="tag">Alert hygiene</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Print Queue Repair</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          When a stuck job jams a label or office printer, these two scripts find that one job and clear it
+          from the remote-management console, without restarting the print server.
+        </p>
+        <ul>
+          <li><b>Look first:</b> a read-only check lists every printer with a failed or stuck job, how old it is, how many jobs wait behind it, whether the printer answers on the network, and the exact values to clear it.</li>
+          <li><b>Clear one, safely:</b> removes a single job, dry run by default; refuses if that job number now belongs to a different document, and never touches PDF, fax or retired queues.</li>
+          <li><b>Knows when to stop:</b> confirms the job is gone, warns before releasing an old backlog, and hands spooler restarts to escalation instead of doing them.</li>
+        </ul>
+        <div class="tags"><span class="tag">PowerShell</span><span class="tag">Print servers</span><span class="tag">Remote management</span><span class="tag">Safe by default</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Showroom Signage Panel</h3>
+          <span class="kind">work project</span>
+        </div>
+        <p>
+          One page for the showroom TVs: see which screens are on, pick one, and drag a video onto it to put it up.
+        </p>
+        <ul>
+          <li><b>Live status:</b> a status check marks each TV online or offline, with a reminder that a sleeping screen reads as offline.</li>
+          <li><b>Upload in place:</b> the TV's own upload page loads inside the panel, with a pop-out for when the embedded view won't show.</li>
+          <li><b>Easy to change:</b> add, rename or remove TVs right in the page; the list is remembered on that computer.</li>
+        </ul>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">Digital signage</span></div>
       </article>
 
       <article class="card">
@@ -606,6 +647,65 @@
         </p>
         <div class="tags"><span class="tag">Python</span><span class="tag">ffmpeg</span><span class="tag">CLI</span><span class="tag">automation</span></div>
         <a class="code-link" href="https://github.com/w0x64/python-toolkit" target="_blank" rel="noopener">View the code →</a>
+      </article>
+
+      <div class="projects-sub"><h3>Earlier work</h3><span>retail &amp; warehouse IT · 2018–2023</span><span class="line"></span></div>
+      <p class="projects-sub-note">Five years on the IT team of a multi-site retailer with two distribution centers. I started on the service desk, earned two promotions within a year, and the company later created a Business Systems Analyst role for me. These are the tools and procedures I built and shared with the team along the way.</p>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Store Register Configuration</h3>
+          <span class="kind">earlier work · 2018–2021</span>
+        </div>
+        <p>
+          When a store's register couldn't be configured, or its POS had a problem nobody else could fix, it came to me.
+          I tracked every version of the register setup and wrote change files that worked on any store's registers.
+        </p>
+        <ul>
+          <li><b>Versioned register screens:</b> kept every version of the register's screen-and-button setup, from v31 (2019) to v60 (2020), each with install steps and a master copy I trusted. Added a 40% employee-discount button and brought back the void button.</li>
+          <li><b>Universal change files:</b> one file to any store to turn promotions on or off (buy-one-get-one, gift with purchase, employee discount), set till floats and cash-drop reminders across every till, or fix employee records.</li>
+          <li><b>Keeping them flowing:</b> a daily check for change files stuck or failed in a store's register queue, with where to find the logs and how to re-queue them.</li>
+          <li><b>Store setup:</b> the procedure for generating store tax updates, the register setup guide for new store openings, and a record of each store's payment-terminal settings.</li>
+        </ul>
+        <div class="tags"><span class="tag">POS</span><span class="tag">XML</span><span class="tag">Configuration management</span><span class="tag">Retail</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Warehouse SQL Playbook</h3>
+          <span class="kind">earlier work · 2021–2023</span>
+        </div>
+        <p>
+          The query library I built for orders and shipments stuck between the store system and the warehouse system,
+          written so the next person could run it too. Cleared 180+ purchase orders that failed to sync between the two.
+        </p>
+        <ul>
+          <li><b>Stuck at the ship door:</b> a 10-step check for orders that won't close out: order, lines, picks, cartons, open work queues, inventory status and carton types, before anything gets changed.</li>
+          <li><b>Labels and packing slips:</b> re-queued failed label and packing-slip events, read the carrier's error log (an invalid weight, a missing address), and re-ran the label request for just that carton.</li>
+          <li><b>Missing receipts:</b> a step-by-step fix that rebuilds missing receiving records, so purchase orders post to the store system and their linked transfer orders come through.</li>
+          <li><b>Answering the business:</b> who picked an order, when, and how much shipped, from live and history tables; item and style checks when product numbers moved.</li>
+          <li><b>Safe habits:</b> every change written as a transaction that rolls back until it's checked; lookups run without blocking the live warehouse database.</li>
+        </ul>
+        <div class="tags"><span class="tag">SQL Server</span><span class="tag">T-SQL</span><span class="tag">Warehouse systems</span><span class="tag">Root cause</span></div>
+      </article>
+
+      <article class="card wide">
+        <div class="card-top">
+          <h3>Warehouse &amp; Retail Systems</h3>
+          <span class="kind">earlier work · 2018–2023</span>
+        </div>
+        <p>
+          I wrote 20+ of the procedures the team ran on and shared my tools with everyone. Highlights:
+        </p>
+        <ul>
+          <li><b>Label printing:</b> wrote the install and user guides for the distribution center's new label-printing setup, plus the safe way to kill a runaway label job (the same problem Print Queue Repair handles today).</li>
+          <li><b>Scanner fleet:</b> documented barcode staging for a new fleet of handheld scanners, kept the fleet's device log by network ID and warranty, and wrote how to take over a frozen scanner session so the vendor could debug it. Today I stage scanners with one script that loads the apps and enrolls each device in management.</li>
+          <li><b>Warehouse-to-store sync:</b> see the SQL Playbook above.</li>
+          <li><b>Vendors and payments:</b> wrote the two-part EDI vendor onboarding runbook (setup, then a test purchase order) and worked with our EDI provider so vendors were paid correctly against their purchase orders.</li>
+          <li><b>Releases and infrastructure:</b> a QA test plan for the yearly shipping-label update, from test orders to printed label to production rollout; one workbook mapping the warehouse system's QA, production and dev servers, scheduled tasks and SQL jobs; and rebuilt distribution lists for each department's scheduled reports.</li>
+          <li><b>Everyday procedures:</b> new-user account setup, tracing account lockouts, and enrolling employees on fingerprint time clocks.</li>
+        </ul>
+        <div class="tags"><span class="tag">SQL</span><span class="tag">Warehouse systems</span><span class="tag">Handheld scanners</span><span class="tag">Label printing</span><span class="tag">EDI</span><span class="tag">SOPs</span></div>
       </article>
 
 
@@ -784,12 +884,13 @@
       <div class="job">
         <h3>IT Business Systems Analyst</h3>
         <div class="meta"><b>Multi-site retail company</b> · Dec 2021 – Aug 2023</div>
-        <p>Supported the enterprise warehouse management system. QA-tested software and DB changes, designed network diagrams for new distribution centers, and automated repetitive system tasks.</p>
+        <p>The company created this role for me. Supported the enterprise warehouse management system across two distribution centers: cleared 180+ purchase orders that failed to sync, worked with our EDI provider so vendors were paid correctly, QA-tested software and DB changes, designed network diagrams for new distribution centers, and automated repetitive system tasks.</p>
+        <p class="tribute">Shout-out to the best boss I've ever had. He saw more in me than I did, and everything I build still carries what he taught me. <b>— TM</b></p>
       </div>
       <div class="job">
         <h3>IT Service Desk Analyst</h3>
         <div class="meta"><b>Multi-site retail company</b> · Aug 2018 – Dec 2021</div>
-        <p>Worked a high-volume ticket queue and supported POS, network gear and endpoints. Installed retail IT for store openings and modernized the SOP library.</p>
+        <p>Earned two promotions within a year and became the escalation point for register configuration. Worked a high-volume ticket queue, supported POS, network gear, handheld scanners and endpoints, installed retail IT for store openings, and modernized the SOP library.</p>
       </div>
     </div>
   </section>
